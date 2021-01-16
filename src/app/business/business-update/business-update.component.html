@@ -1,0 +1,74 @@
+<button nz-button nzType="primary" (click)="showModal()">
+    <span>Katılımcıları Düzenle</span>
+  </button>
+  <nz-modal
+    [(nzVisible)]="isVisible"
+    [nzTitle]="modalEdit"
+    [nzContent]="modalContent"
+    [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()"
+    [nzCom]
+  >
+    <ng-template #modalEdit>Katılımcıyı Düzenle</ng-template>
+  
+    <ng-template #modalContent>
+      <form nz-form [formGroup]="businessEditForm" (ngSubmit)="update()">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzRequired>Business Id</nz-form-label>
+          <nz-form-control [nzSpan]="15">
+            <input nz-input [disabled]="true" value="{{business.businessId}}"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzRequired>Business Name</nz-form-label>
+          <nz-form-control [nzSpan]="15">
+            <input nz-input [disabled]="true" value="{{business.businessName}}"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzRequired>Katılımcı Sayısı</nz-form-label>
+          <nz-form-control [nzSpan]="15" nzHasFeedback [nzErrorTip]="subscriberCountErrorTpl">
+            <input nz-input type="number" id="subscriberCount" name="subscriberCount" formControlName="subscriberCount" placeholder="Katılması beklenen kişi sayısını giriniz."/>
+            <ng-template #subscriberCountErrorTpl let-control>
+              <ng-container *ngIf="businessEditForm.get('subscriberCount').hasError('required') && businessEditForm.get('subscriberCount').dirty">
+                Katılmcı sayısının girilmesi zorunludur.
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzRequired>Açıklama</nz-form-label>
+          <nz-form-control [nzSpan]="15" nzHasFeedback [nzErrorTip]="descriptionErrorTpl">
+            <textarea id="courseDescription" name="courseDescription" formControlName="courseDescription" nz-input rows="2" placeholder="Kurs açıklamasını giriniz."></textarea>
+          </nz-form-control>
+          <ng-template #descriptionErrorTpl let-control>
+            <ng-container *ngIf="businessEditForm.get('courseDescription').hasError('required') && businessEditForm.get('courseDescription').dirty">
+              Açıklamanın girilmesi zorunludur.
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzRequired>Aktiflik</nz-form-label>
+          <nz-form-control [nzSpan]="15">
+            <label nz-checkbox id="isActive" name="isActive" formControlName="isActive"></label>
+          </nz-form-control>
+          
+        </nz-form-item>
+      </form>
+    </ng-template>
+  
+    <ng-template #modalFooter>
+      <button nz-button nzType="default" (click)="handleCancel()">
+        İptal Et
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        (click)="update()"
+        [nzLoading]="isConfirmLoading"
+        [disabled]="businessEditForm.invalid"
+      >
+        Kaydet
+      </button>
+    </ng-template>
+  </nz-modal>

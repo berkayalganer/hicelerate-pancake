@@ -1,0 +1,33 @@
+<nz-table #businessTable [nzData]="businesses">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>İsim</th>
+      <th>Başlık</th>
+      <th>Resim Url</th>
+      <th>Oturum Tarihi</th>
+      <th>Fiyat</th>
+      <th>İndirimli Fiyat</th>
+      <th>Açıklama</th>
+      <th>Katılımcı Sayısı</th>
+      <th>Düzenle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let business of businessTable.data">
+      <app-course-info *ngIf="!business.isActive" [businessName]="business.businessName"></app-course-info>
+      <td *ngIf="business.isActive">{{ business.businessId }}</td>
+      <td *ngIf="business.isActive">{{ business.businessName }}</td>
+      <td *ngIf="business.isActive">{{ business.title }}</td>
+      <td *ngIf="business.isActive">{{ business.pictureUrl }}</td>
+      <td *ngIf="business.isActive">{{ business.sessionDate | date }}</td>
+      <td *ngIf="business.isActive">{{ business.listPrice }}</td>
+      <td *ngIf="business.isActive">{{ business.discountedPrice }}</td>
+      <td *ngIf="business.isActive">{{ business.description }}</td>
+      <td *ngIf="business.isActive" nz-popover nzPopoverTitle="Açıklama" nzPopoverContent="{{business.courseDescription}}">{{ business.subscriberCount }}</td>
+      <td>
+        <app-business-update [business]="business" (objEvent)="receiveValue($event)"></app-business-update>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
